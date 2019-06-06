@@ -88,6 +88,8 @@ class MultipleGridAnchorGenerator(anchor_generator.AnchorGenerator):
       ValueError: if box_specs_list is not a list of list of pairs
       ValueError: if clip_window is not either None or a tensor of shape [4]
     """
+    print (box_specs_list)
+
     if isinstance(box_specs_list, list) and all(
         [isinstance(list_item, list) for list_item in box_specs_list]):
       self._box_specs = box_specs_list
@@ -118,7 +120,7 @@ class MultipleGridAnchorGenerator(anchor_generator.AnchorGenerator):
       if arg and not (isinstance(arg, list) and
                       len(arg) == len(self._box_specs)):
         raise ValueError('%s must be a list with the same length '
-                         'as self._box_specs' % arg_name)
+                         'as self._box_specs, %d' % (arg_name, len(arg)))
       if arg and not all([
           isinstance(list_item, tuple) and len(list_item) == 2
           for list_item in arg
@@ -182,6 +184,9 @@ class MultipleGridAnchorGenerator(anchor_generator.AnchorGenerator):
 
     im_height = tf.to_float(im_height)
     im_width = tf.to_float(im_width)
+
+    print("feature_map_shape_list")
+    print(len(feature_map_shape_list))
 
     if not self._anchor_strides:
       anchor_strides = [(1.0 / tf.to_float(pair[0]), 1.0 / tf.to_float(pair[1]))
